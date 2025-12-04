@@ -6,6 +6,8 @@ import java.util.List;
 public class manageHTML
 {
     private File path;
+    private File next;
+    private File prev;
     public List<String> accepted = List.of(".jpg",".jpeg",".png");
     public manageHTML(File path)
     {
@@ -15,6 +17,28 @@ public class manageHTML
     public File getPath()
     {
         return path;
+    }
+
+    public File getNext()
+    {
+        return next;
+    }
+
+    public manageHTML setNext(File next)
+    {
+        this.next = next;
+        return this;
+    }
+
+    public File getPrev()
+    {
+        return prev;
+    }
+
+    public manageHTML setPrev(File prev)
+    {
+        this.prev = prev;
+        return this;
     }
 
     public String getHTMLName()
@@ -27,19 +51,24 @@ public class manageHTML
         return path.getName().substring(path.getName().lastIndexOf('.'),path.getName().length());
     }
 
-    public void create()
+    public manageHTML create()
     {
         try
         {
             if (accepted.contains(getExtension()))
             {
                 FileWriter fw = new FileWriter(getHTMLName());
+                System.out.println(path.getName());
                 fw.write("<html>" +
                         "<head>" +
                         "<title>Page Title</title>" +
                         "</head>" +
-                        "<body>" +
-                        "<img src=\"" + path.getName() + "\">" +
+                        "<body>");
+                if (next != null)
+                {
+                   fw.append("<a href=\"").append(next.getName()).append("\">Next</a>");
+                }
+                fw.write("<img src=\"" + path.getName() + "\">" +
                         "</body>" +
                         "</html>");
                 fw.close();
@@ -49,12 +78,14 @@ public class manageHTML
         {
             System.err.println("Fájlba írás sikertelen");
         }
+        return this;
     }
-    public void delete()
+    public manageHTML delete()
     {
         if (path.exists() && getExtension().equals(".html"))
         {
             path.delete();
         }
+        return this;
     }
 }
