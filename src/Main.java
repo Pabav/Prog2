@@ -29,8 +29,8 @@ public class Main
             }
             else
             {
-                new manageHTML(files[i]).create();
-                //new manageHTML(files[i]).delete();
+                //new manageHTML(files[i]).create();
+                new manageHTML(files[i]).delete();
             }
         }
     }
