@@ -6,8 +6,6 @@ import java.util.List;
 public class manageHTML
 {
     private File path;
-    //private File prev;
-    //private File next;
     public List<String> accepted = List.of(".jpg",".jpeg",".png");
     public manageHTML(File path)
     {
@@ -41,7 +39,6 @@ public class manageHTML
                         "<title>Page Title</title>" +
                         "</head>" +
                         "<body>" +
-                        //"<a href=\""+  +"\">link text</a>" +
                         "<img src=\"" + path.getName() + "\">" +
                         "</body>" +
                         "</html>");
