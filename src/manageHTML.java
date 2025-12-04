@@ -58,12 +58,12 @@ public class manageHTML
             if (accepted.contains(getExtension()))
             {
                 FileWriter fw = new FileWriter(getHTMLName());
-                System.out.println(path.getName());
                 fw.write("<html>" +
                         "<head>" +
                         "<title>Page Title</title>" +
                         "</head>" +
                         "<body>");
+                System.out.println("created " + getHTMLName());
                 if (next != null)
                 {
                    fw.append("<a href=\"").append(next.getName()).append("\">Next</a>");
@@ -80,11 +80,13 @@ public class manageHTML
         }
         return this;
     }
-    public manageHTML delete()
+    public manageHTML remove()
     {
-        if (path.exists() && getExtension().equals(".html"))
+        if (path.exists() && getExtension().compareTo(".html") == 0)
         {
             path.delete();
+            System.out.println("removed " + path.getPath());
+
         }
         return this;
     }
