@@ -16,10 +16,7 @@ public class Main
             System.exit(2);
         }
         //System.out.println(new manageHTML(files[0]).getHTMLName());
-        //processFolder(file);
-        File[] files = file.listFiles();
-        new manageHTML(files[0]).create();
-
+        processFolder(file);
     }
     public static void processFolder(File folder)
     {
@@ -32,8 +29,8 @@ public class Main
             }
             else
             {
-                //new manageHTML(files[i]).create();
-                new manageHTML(files[i]).delete();
+                new manageHTML(files[i]).create();
+                //new manageHTML(files[i]).delete();
             }
         }
     }
