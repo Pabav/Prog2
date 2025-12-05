@@ -84,9 +84,10 @@ public class manageHTML
     {
         if (path.exists() && getExtension().compareTo(".html") == 0)
         {
-            path.delete();
-            System.out.println("removed " + path.getPath());
-
+            if (path.delete())
+            {
+                System.out.println("removed " + path.getPath());
+            }
         }
         return this;
     }
