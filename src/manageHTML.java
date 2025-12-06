@@ -5,10 +5,10 @@ import java.util.List;
 
 public class manageHTML
 {
-    private final File path;
+    private File path;
     private File next;
     private File prev;
-    public List<String> accepted = List.of(".jpg",".jpeg",".png");
+    public List<String> accepted = List.of(".jpg",".jpeg",".png",".webp");
     public manageHTML(File path)
     {
         this.path = path;
@@ -41,14 +41,14 @@ public class manageHTML
         return this;
     }
 
-    public String getHTMLName(File f)
+    public String getHTMLName()
     {
-        return f.getParentFile().getPath()+"\\"+f.getName().substring(0,f.getName().lastIndexOf('.'))+".html";
+        return path.getParentFile().getPath()+"\\"+path.getName().substring(0,path.getName().lastIndexOf('.'))+".html";
     }
 
     public String getExtension()
     {
-        return path.getName().substring(path.getName().lastIndexOf('.')).toLowerCase();
+        return path.getName().substring(path.getName().lastIndexOf('.'),path.getName().length());
     }
 
     public manageHTML create()
@@ -57,21 +57,20 @@ public class manageHTML
         {
             if (accepted.contains(getExtension()))
             {
-                FileWriter fw = new FileWriter(getHTMLName(path));
+                FileWriter fw = new FileWriter(getHTMLName());
                 fw.write("<html>" +
                         "<head>" +
                         "<title>Page Title</title>" +
                         "</head>" +
                         "<body>");
-                System.out.println("created " + getHTMLName(path));
-
+                System.out.println("created " + getHTMLName());
                 if (prev != null)
                 {
-                    fw.append("<a href=\"").append(getHTMLName(prev).concat("\">Prev</a>"));
+                    fw.append("<a href=\"").append(prev.getName()).append("\">Prev</a>");
                 }
                 if (next != null)
                 {
-                    fw.append("<a href=\"").append(getHTMLName(next).concat("\">Next</a>"));
+                   fw.append("<a href=\"").append(next.getName()).append("\">Next</a>");
                 }
                 fw.write("<img src=\"" + path.getName() + "\">" +
                         "</body>" +

@@ -1,6 +1,4 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main
 {
@@ -23,7 +21,7 @@ public class Main
         //System.out.println(new manageHTML(files[0]).getHTMLName());
         if (args.length == 2)
         {
-            if (args[1].toLowerCase().compareTo("-r") == 0)
+            if (args[1].compareTo("-r") == 0)
             {
                 deleteHTML(file);
             }
@@ -34,61 +32,37 @@ public class Main
         }
     }
 
-    public static void processFile(int i, File... file)
-    {
-        if (file.length == 2)
-        {
-            if (i == 0)
-            {
-                if (file[0].isDirectory())
-                {
-                    processFolder(file[0]);
-                }
-                else
-                {
-                    new manageHTML(file[0]).setNext(file[1]).create();
-                }
-            }
-            else
-            {
-                if (file[0].isDirectory())
-                {
-                    processFolder(file[0]);
-                }
-                else
-                {
-                    new manageHTML(file[0]).setPrev(file[1]).create();
-                }
-            }
-        }
-        if (file.length == 3)
-        {
-            if (file[0].isDirectory())
-            {
-                processFolder(file[0]);
-            } else
-            {
-                new manageHTML(file[0]).setPrev(file[1]).setNext(file[2]).create();
-            }
-        }
-    }
-
     public static void processFolder(File folder)
     {
         File[] files = folder.listFiles();
         if (files != null)
         {
+            if (files[0].isDirectory())
+            {
+                processFolder(files[0]);
+            } else
+            {
+                new manageHTML(files[0]).create();
+            }
             if (files.length > 1)
             {
-                processFile(0, files[0], files[1]);
-
                 for (int i = 1; i < files.length - 1; i++)
                 {
-                    System.out.println(files[i].getName());
-                    processFile(i, files[i], files[i - 1], files[i + 1]);
+                    if (files[i].isDirectory())
+                    {
+                        processFolder(files[i]);
+                    } else
+                    {
+                        new manageHTML(files[i]).create();
+                    }
                 }
-
-                processFile(files.length, files[files.length - 1], files[files.length - 2]);
+                if (files[files.length - 1].isDirectory())
+                {
+                    processFolder(files[files.length - 1]);
+                } else
+                {
+                    new manageHTML(files[files.length - 1]).create();
+                }
             }
         }
     }
@@ -96,17 +70,15 @@ public class Main
     {
         File[] files = folder.listFiles();
 
-        if (files != null)
+        for (int i = 0; i < files.length; i++)
         {
-            for (File file : files)
+            if (files[i].isDirectory())
             {
-                if (file.isDirectory())
-                {
-                    deleteHTML(file);
-                } else
-                {
-                    new manageHTML(file).remove();
-                }
+                deleteHTML(files[i]);
+            }
+            else
+            {
+                new manageHTML(files[i]).remove();
             }
         }
     }
