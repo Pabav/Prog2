@@ -48,10 +48,10 @@ public class manageHTML
 
     public String getExtension()
     {
-        return path.getName().substring(path.getName().lastIndexOf('.'),path.getName().length());
+        return path.getName().substring(path.getName().lastIndexOf('.'));
     }
 
-    public manageHTML create()
+    public void create()
     {
         try
         {
@@ -66,11 +66,11 @@ public class manageHTML
                 System.out.println("created " + getHTMLName());
                 if (prev != null)
                 {
-                    fw.append("<a href=\"").append(prev.getName()).append("\">Prev</a>");
+                    fw.append("<a href=\"").append(prev.getName().substring(0,prev.getName().lastIndexOf('.')).concat(".html")).append("\">Prev</a>");
                 }
                 if (next != null)
                 {
-                   fw.append("<a href=\"").append(next.getName()).append("\">Next</a>");
+                   fw.append("<a href=\"").append(next.getName().substring(0,next.getName().lastIndexOf('.')).concat(".html")).append("\">Next</a>");
                 }
                 fw.write("<img src=\"" + path.getName() + "\">" +
                         "</body>" +
@@ -82,9 +82,8 @@ public class manageHTML
         {
             System.err.println("Fájlba írás sikertelen");
         }
-        return this;
     }
-    public manageHTML remove()
+    public void remove()
     {
         if (path.exists() && getExtension().compareTo(".html") == 0)
         {
@@ -93,6 +92,5 @@ public class manageHTML
                 System.out.println("removed " + path.getPath());
             }
         }
-        return this;
     }
 }
