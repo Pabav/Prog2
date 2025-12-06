@@ -80,15 +80,17 @@ public class Main
     {
         File[] files = folder.listFiles();
 
-        for (int i = 0; i < files.length; i++)
+        if (files != null)
         {
-            if (files[i].isDirectory())
+            for (File file : files)
             {
-                deleteHTML(files[i]);
-            }
-            else
-            {
-                new manageHTML(files[i]).remove();
+                if (file.isDirectory())
+                {
+                    deleteHTML(file);
+                } else
+                {
+                    new manageHTML(file).remove();
+                }
             }
         }
     }
