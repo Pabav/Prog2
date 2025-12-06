@@ -1,4 +1,6 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main
 {
@@ -34,35 +36,30 @@ public class Main
 
     public static void processFolder(File folder)
     {
-        File[] files = folder.listFiles();
-        if (files != null)
+        File[] allFiles = folder.listFiles();
+        List<File> files = new ArrayList<>();
+        List<File> folders = new ArrayList<>();
+
+        if (allFiles != null)
         {
-            if (files[0].isDirectory())
+            for (File f : allFiles)
             {
-                processFolder(files[0]);
-            } else
-            {
-                new manageHTML(files[0]).create();
+                if (f.isDirectory())
+                {
+                    folders.add(f);
+                }
+                else
+                {
+                    files.add(f);
+                }
             }
-            if (files.length > 1)
+            for (File f : folders)
             {
-                for (int i = 1; i < files.length - 1; i++)
-                {
-                    if (files[i].isDirectory())
-                    {
-                        processFolder(files[i]);
-                    } else
-                    {
-                        new manageHTML(files[i]).create();
-                    }
-                }
-                if (files[files.length - 1].isDirectory())
-                {
-                    processFolder(files[files.length - 1]);
-                } else
-                {
-                    new manageHTML(files[files.length - 1]).create();
-                }
+                processFolder(f);
+            }
+            for (File f : files)
+            {
+                //TODO: html létrehozása
             }
         }
     }
