@@ -32,24 +32,20 @@ public class Main
         }
     }
 
-    public static void processFile(File... files)
-    {
-
-    }
-
     public static void processFolder(File folder)
     {
         File[] files = folder.listFiles();
         if (files != null)
+        {
+            if (files[0].isDirectory())
+            {
+                processFolder(files[0]);
+            } else
+            {
+                new manageHTML(files[0]).create();
+            }
             if (files.length > 1)
             {
-                if (files[0].isDirectory())
-                {
-                    processFolder(files[0]);
-                } else
-                {
-                    new manageHTML(files[0]).setNext(files[1]).create();
-                }
                 for (int i = 1; i < files.length - 1; i++)
                 {
                     if (files[i].isDirectory())
@@ -57,7 +53,7 @@ public class Main
                         processFolder(files[i]);
                     } else
                     {
-                        new manageHTML(files[i]).setPrev(files[i - 1]).setNext(files[i + 1]).create();
+                        new manageHTML(files[i]).create();
                     }
                 }
                 if (files[files.length - 1].isDirectory())
@@ -65,9 +61,10 @@ public class Main
                     processFolder(files[files.length - 1]);
                 } else
                 {
-                    new manageHTML(files[files.length - 1]).setPrev(files[files.length - 2]).create();
+                    new manageHTML(files[files.length - 1]).create();
                 }
             }
+        }
     }
     public static void deleteHTML(File folder)
     {

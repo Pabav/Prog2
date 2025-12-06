@@ -8,7 +8,7 @@ public class manageHTML
     private File path;
     private File next;
     private File prev;
-    public List<String> accepted = List.of(".jpg",".jpeg",".png");
+    public List<String> accepted = List.of(".jpg",".jpeg",".png",".webp");
     public manageHTML(File path)
     {
         this.path = path;
@@ -64,6 +64,10 @@ public class manageHTML
                         "</head>" +
                         "<body>");
                 System.out.println("created " + getHTMLName());
+                if (prev != null)
+                {
+                    fw.append("<a href=\"").append(prev.getName()).append("\">Prev</a>");
+                }
                 if (next != null)
                 {
                    fw.append("<a href=\"").append(next.getName()).append("\">Next</a>");
