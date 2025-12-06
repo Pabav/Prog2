@@ -57,9 +57,22 @@ public class Main
             {
                 processFolder(f);
             }
-            for (File f : files)
+            if (!files.isEmpty())
             {
-                //TODO: html létrehozása
+                if (files.size() > 1)
+                {
+                    new manageHTML(files.getFirst()).setNext(files.get(1)).create();
+                    for (int i = 1; i < files.size() - 1; i++)
+                    {
+                        new manageHTML(files.get(i)).setPrev(files.get(i-1)).setNext(files.get(i+1)).create();
+                    }
+                    new manageHTML(files.getLast()).setPrev(files.get(files.size()-2)).create();
+                }
+                else
+                {
+                    new manageHTML(files.getFirst()).create();
+                }
+
             }
         }
     }
