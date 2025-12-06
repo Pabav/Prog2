@@ -5,7 +5,7 @@ import java.util.List;
 
 public class manageHTML
 {
-    private File path;
+    private final File path;
     private File next;
     private File prev;
     public List<String> accepted = List.of(".jpg",".jpeg",".png",".webp");
@@ -14,25 +14,10 @@ public class manageHTML
         this.path = path;
     }
 
-    public File getPath()
-    {
-        return path;
-    }
-
-    public File getNext()
-    {
-        return next;
-    }
-
     public manageHTML setNext(File next)
     {
         this.next = next;
         return this;
-    }
-
-    public File getPrev()
-    {
-        return prev;
     }
 
     public manageHTML setPrev(File prev)
