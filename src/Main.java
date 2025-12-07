@@ -31,16 +31,17 @@ public class Main
         else
         {
             processFolder(file);
-            testIndex(file);
         }
     }
 
-    public static void testIndex(File folder)
+    public static void createIndex(File folder)
     {
         File[] allFiles = folder.listFiles();
         List<File> files = new ArrayList<>();
         List<File> folders = new ArrayList<>();
 
+        if (allFiles != null)
+        {
             for (File f : allFiles)
             {
                 if (f.isDirectory())
@@ -51,7 +52,8 @@ public class Main
                     files.add(f);
                 }
             }
-            new Index(files, folders, folder.getPath()+"\\index.html").create();
+        }
+
 
     }
 
@@ -78,6 +80,7 @@ public class Main
             {
                 processFolder(f);
             }
+            new Index(files, folders, folder.getPath()+"\\index.html").create();
             if (!files.isEmpty())
             {
                 if (files.size() > 1)

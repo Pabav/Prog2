@@ -1,14 +1,13 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 public class Index
 {
-    private List<File> files;
-    private List<File> folders;
-    private String path;
+    final private List<File> files;
+    final private List<File> folders;
+    final private String path;
 
     public Index(List<File> files, List<File> folders, String path)
     {
@@ -44,7 +43,7 @@ public class Index
         }
         catch (IOException e)
         {
-            System.out.println("Index létrehozása sikertelen");;
+            System.out.println("Index létrehozása sikertelen");
         }
     }
 }
