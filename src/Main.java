@@ -31,7 +31,28 @@ public class Main
         else
         {
             processFolder(file);
+            testIndex(file);
         }
+    }
+
+    public static void testIndex(File folder)
+    {
+        File[] allFiles = folder.listFiles();
+        List<File> files = new ArrayList<>();
+        List<File> folders = new ArrayList<>();
+
+            for (File f : allFiles)
+            {
+                if (f.isDirectory())
+                {
+                    folders.add(f);
+                } else
+                {
+                    files.add(f);
+                }
+            }
+            new Index(files, folders, folder.getPath()+"\\index.html").create();
+
     }
 
     public static void processFolder(File folder)

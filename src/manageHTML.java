@@ -31,40 +31,60 @@ public class manageHTML
         return path.getParentFile().getPath()+"\\"+path.getName().substring(0,path.getName().lastIndexOf('.'))+".html";
     }
 
-    public String getExtension()
+    public String getExtension(File f)
     {
-        return path.getName().substring(path.getName().lastIndexOf('.')).toLowerCase();
+        return f.getName().substring(f.getName().lastIndexOf('.')).toLowerCase();
+    }
+
+    public String removeExtension(File f)
+    {
+        return f.getName().substring(0,f.getName().lastIndexOf('.'));
     }
 
     public void create()
     {
         try
         {
-            if (accepted.contains(getExtension()))
+            if (accepted.contains(getExtension(path)))
             {
                 FileWriter fw = new FileWriter(getHTMLName());
                 fw.write("<html>" +
                         "<head>" +
-                        "<style>" +
-                        "img {" +
-                        "width: 50%;" +
-                        "}" +
+                        "<title>" + path.getName() + "</title>" +
+                        "<style>" + "img {" + "width:500px;" + "}" +
                         "</style>" +
-                        "<title>Page Title</title>" +
+                        "<title>"+ removeExtension(path) +"</title>" +
                         "</head>" +
                         "<body>");
                 System.out.println("created " + getHTMLName());
-                if (prev != null)
+
+                fw.append("<h2>").append(path.getName()).append("</h2>");
+
+                fw.append("<table><tr>");
+
+                fw.append("<th style=\"width:10%\"><p style=\"text-align:center;\">");
+                fw.append("<a href=\"index.html\">Up</a>");
+                fw.append("</p></th>");
+
+                fw.append("<th style=\"width:10%\">");
+                if (prev != null && accepted.contains(getExtension(prev)))
                 {
-                    fw.append("<a href=\"").append(prev.getName().substring(0,prev.getName().lastIndexOf('.')).concat(".html")).append("\">Prev</a>");
+                    fw.append("<p style=\"text-align:center;\">");
+                    fw.append("<a href=\"").append(removeExtension(prev).concat(".html")).append("\">Prev</a>");
+
                 }
-                if (next != null)
+                fw.append("</p></th>");
+                fw.append("<th style=\"width:10%\">");
+                if (next != null && accepted.contains(getExtension(next)))
                 {
-                   fw.append("<a href=\"").append(next.getName().substring(0,next.getName().lastIndexOf('.')).concat(".html")).append("\">Next</a>");
+                    fw.append("<p style=\"text-align:center;\">");
+                    fw.append("<a href=\"").append(removeExtension(next).concat(".html")).append("\">Next</a>");
+
                 }
-                fw.write("<img src=\"" + path.getName() + "\">" +
-                        "</body>" +
-                        "</html>");
+                fw.append("</p></th>");
+                fw.append("</tr></table>");
+                fw.append("<img src=\"").append(path.getName()).append("\"></body></html>");
+
                 fw.close();
             }
 
@@ -75,7 +95,7 @@ public class manageHTML
     }
     public void remove()
     {
-        if (path.exists() && getExtension().compareTo(".html") == 0)
+        if (path.exists() && getExtension(path).compareTo(".html") == 0)
         {
             if (path.delete())
             {
