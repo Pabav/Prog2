@@ -33,7 +33,7 @@ public class manageHTML
 
     public String getExtension()
     {
-        return path.getName().substring(path.getName().lastIndexOf('.'));
+        return path.getName().substring(path.getName().lastIndexOf('.')).toLowerCase();
     }
 
     public void create()
@@ -45,6 +45,11 @@ public class manageHTML
                 FileWriter fw = new FileWriter(getHTMLName());
                 fw.write("<html>" +
                         "<head>" +
+                        "<style>" +
+                        "img {" +
+                        "width: 50%;" +
+                        "}" +
+                        "</style>" +
                         "<title>Page Title</title>" +
                         "</head>" +
                         "<body>");
