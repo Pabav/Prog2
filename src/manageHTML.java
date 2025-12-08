@@ -9,9 +9,11 @@ public class manageHTML
     private File next;
     private File prev;
     public List<String> accepted = List.of(".jpg",".jpeg",".png",".webp");
-    public manageHTML(File path)
+    private File root;
+    public manageHTML(File path, File root)
     {
         this.path = path;
+        this.root = root;
     }
 
     public manageHTML setNext(File next)
@@ -59,11 +61,28 @@ public class manageHTML
                 System.out.println("created " + getHTMLName());
 
                 fw.append("<h2>").append(path.getName()).append("</h2>");
-
                 fw.append("<table><tr>");
-
                 fw.append("<th style=\"width:10%\"><p style=\"text-align:center;\">");
-                fw.append("<a href=\"index.html\">Up</a>");
+                int layer = 0;
+                File rootPath = path.getParentFile();
+                while (rootPath.getName().compareTo(root.getName()) != 0)
+                {
+                    rootPath = rootPath.getParentFile();
+                    layer++;
+                }
+                StringBuilder rootName = new StringBuilder();
+                rootName.append(".");
+                for (int i = 0; i < layer; i++)
+                {
+                    rootName.append(".\\");
+                }
+                rootName.toString();
+
+                fw.append("<a href=\"").append(rootName).append("\\index.html\">Home</a>");
+                fw.append("</tr><tr>");
+                fw.append("<th style=\"width:10%\"><p style=\"text-align:center;\">");
+                fw.append("<a href=\"index.html\">Index</a>");
+                fw.append("</tr><tr>");
                 fw.append("</p></th>");
 
                 fw.append("<th style=\"width:10%\">");
@@ -83,8 +102,14 @@ public class manageHTML
                 }
                 fw.append("</p></th>");
                 fw.append("</tr></table>");
-                fw.append("<img src=\"").append(path.getName()).append("\"></body></html>");
-
+                if (next != null)
+                {
+                    fw.append("<a href = \"").append(removeExtension(next).concat(".html\">")).append("<img src=\"").append(path.getName()).append("\"").append("\"></body></html>");
+                }
+                else
+                {
+                    fw.append("<img src=\"").append(path.getName()).append("\"").append("\"></body></html>");
+                }
                 fw.close();
             }
 

@@ -25,17 +25,17 @@ public class Main
         {
             if (args[1].compareTo("-r") == 0)
             {
-                deleteHTML(file);
+                deleteHTML(file, file);
             }
         }
         else
         {
-            processFolder(file);
-            indexFolders(file);
+            processFolder(file, file);
+            indexFolders(file, file);
         }
     }
 
-    public static void indexFolders(File folder)
+    public static void indexFolders(File folder,File root)
     {
         File[] allFiles = folder.listFiles();
         List<File> files = new ArrayList<>();
@@ -48,18 +48,25 @@ public class Main
                 if (f.isDirectory())
                 {
                     folders.add(f);
-                    indexFolders(f);
+                    indexFolders(f,root);
                 } else
                 {
                     files.add(f);
                 }
             }
         }
-        new Index(files, folders, folder.getPath()+"\\index.html").create();
+        if (folder.compareTo(root) == 0)
+        {
+            new Index(files, folders, folder.getPath()+"\\index.html",true).create();
+        }
+        else
+        {
+            new Index(files, folders, folder.getPath()+"\\index.html",false).create();
+        }
 
     }
 
-    public static void processFolder(File folder)
+    public static void processFolder(File folder, File root)
     {
         File[] allFiles = folder.listFiles();
         List<File> files = new ArrayList<>();
@@ -80,28 +87,28 @@ public class Main
             }
             for (File f : folders)
             {
-                processFolder(f);
+                processFolder(f, root);
             }
             if (!files.isEmpty())
             {
                 if (files.size() > 1)
                 {
-                    new manageHTML(files.getFirst()).setNext(files.get(1)).create();
+                    new manageHTML(files.getFirst(), root).setNext(files.get(1)).create();
                     for (int i = 1; i < files.size() - 1; i++)
                     {
-                        new manageHTML(files.get(i)).setPrev(files.get(i-1)).setNext(files.get(i+1)).create();
+                        new manageHTML(files.get(i),root).setPrev(files.get(i-1)).setNext(files.get(i+1)).create();
                     }
-                    new manageHTML(files.getLast()).setPrev(files.get(files.size()-2)).create();
+                    new manageHTML(files.getLast(),root).setPrev(files.get(files.size()-2)).create();
                 }
                 else
                 {
-                    new manageHTML(files.getFirst()).create();
+                    new manageHTML(files.getFirst(),root).create();
                 }
 
             }
         }
     }
-    public static void deleteHTML(File folder)
+    public static void deleteHTML(File folder, File root)
     {
         File[] files = folder.listFiles();
 
@@ -111,10 +118,10 @@ public class Main
             {
                 if (file.isDirectory())
                 {
-                    deleteHTML(file);
+                    deleteHTML(file, root);
                 } else
                 {
-                    new manageHTML(file).remove();
+                    new manageHTML(file,root).remove();
                 }
             }
         }
